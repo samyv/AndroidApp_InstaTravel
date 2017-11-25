@@ -35,9 +35,8 @@ public class HomeScreen extends AppCompatActivity {
             public boolean onNavigationItemSelected(MenuItem menuItem) {
                 switch (menuItem.getItemId()) {
                     case (R.id.nav_account):
-                        Intent profileActivty = new Intent(getApplicationContext(), Profile.class);
-                        //TODO : there is no profile acticty yet
-                       // startActivity(profileActivty);
+                        Intent profileActivity = new Intent(getApplicationContext(), Profile.class);
+                        startActivity(profileActivity);
                         break;
                     case (R.id.nav_settings):
                         Intent settingsActivity = new Intent(getApplicationContext(), SettingsAct.class);
