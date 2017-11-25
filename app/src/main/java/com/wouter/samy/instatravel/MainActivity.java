@@ -16,6 +16,10 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        boolean logout = getIntent().getBooleanExtra("logout",false);
+        if(logout){
+            //TODO: LOG A PERSON OUT
+        }
         super.onCreate(savedInstanceState);
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         setContentView(R.layout.activity_main);
@@ -37,7 +41,7 @@ public class MainActivity extends AppCompatActivity {
         } else {
             Toast toast = Toast.makeText(getApplicationContext(),"username and password don't match",Toast.LENGTH_LONG);
         }*/
-        startActivity(new Intent(this, TestMaps.class));
+        startActivity(new Intent(this, HomeScreen.class));
 
     }
 
