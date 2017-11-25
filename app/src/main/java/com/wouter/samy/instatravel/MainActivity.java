@@ -31,6 +31,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 public class MainActivity extends AppCompatActivity {
+    Profile test = new Profile();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         MySingleton.getInstance(this);
@@ -45,19 +46,6 @@ public class MainActivity extends AppCompatActivity {
 
 
     public void loginButton(View view){
-       /* TextView loginName = findViewById(R.id.loginName);
-        String username = loginName.getText().toString();
-        TextView loginPassword = findViewById(R.id.loginPassword);
-        String password = loginPassword.getText().toString();
-        if(Profile.isValid(username,password)){
-            Toast toast = Toast.makeText(getApplicationContext(),"Login succesfully!",Toast.LENGTH_LONG);
-            Intent intent = new Intent(this,HomeScreen.class);
-            intent.putExtra("username", username);
-            intent.putExtra("password",password);
-            startActivity(intent);
-        } else {
-            Toast toast = Toast.makeText(getApplicationContext(),"username and password don't match",Toast.LENGTH_LONG);
-        }*/
         EditText text = (EditText) findViewById(R.id.loginName);
         EditText textpass = (EditText) findViewById(R.id.loginPassword);
         final String testname = text.getText().toString();
@@ -77,9 +65,10 @@ public class MainActivity extends AppCompatActivity {
                         name = jsonObject.getString("name");
                         pass = jsonObject.getString("password");
                         if(testname.equals(name) && testpass.equals(pass)){
-                            Profile.test.setId(id);
-                            Profile.test.setUsername(name);
+                            test.setId(id);
+                            test.setUsername(name);
                             found = true;
+                            Profile.setLoggedIn(test);
                         }
                     } catch (JSONException e) {
                         Toast.makeText(MainActivity.this, "error", Toast.LENGTH_SHORT).show();

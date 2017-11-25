@@ -78,13 +78,9 @@ public class Profile extends AppCompatActivity{
         this.password = password;
     }
 
-    public static boolean isValid(String username, String password){
-        if(ProfileMapper.UNIQUEINSTANCE.loginProfile(username, password)){
-            Profile user = ProfileMapper.UNIQUEINSTANCE.getProfileByName(username);
-            return true;
-        } else {
-            return false;
-        }
+
+    public static void setLoggedIn(Profile profile){
+        test = profile;
     }
 
     public String getUsername() {

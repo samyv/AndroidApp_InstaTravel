@@ -37,6 +37,8 @@ public class EditProfile extends AppCompatActivity {
 
     public boolean saveButton(MenuItem menu){
         //TODO: send values to databank
+        TextView username = findViewById(R.id.editprofile_username);
+        Profile.test.setUsername(username.getText().toString());
         return true;
     }
 }
