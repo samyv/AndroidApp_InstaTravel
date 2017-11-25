@@ -8,11 +8,10 @@
          location permissions for the 'MyLocation' functionality. 
     -->
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
-<<<<<<< HEAD
 
     <!--
 =======
-<!--
+<!
 >>>>>>> 4961106d367d167beb4a6b028e3d87ba4ab0d00d
          The ACCESS_COARSE/FINE_LOCATION permissions are not required to use
          Google Maps Android API v2, but you must specify either coarse or fine
@@ -73,7 +72,6 @@
             android:label="@string/title_activity_travel_test" />
         <activity android:name=".CameraActivity" />
         <activity android:name=".WebAPI" />
-        <activity android:name=".EditProfile"></activity>
     </application>
 
 </manifest>

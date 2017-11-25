@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
 
@@ -13,12 +14,24 @@ import android.widget.TextView;
  */
 
 public class Profile extends AppCompatActivity{
+     public static Profile test;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile);
         //for testing purpose
-        Profile test = new Profile(1,"samyvv","WouterIsLelijk","Samy","Van Vooren");
+        test = new Profile(1,"samyvv","WouterIsLe-m "lijk","Samy","Van Vooren","samyvanv@hotmail.com");
+
+        TextView firstN,lastN,userN,email;
+        firstN = findViewById(R.id.editprofile_firstname);
+        lastN = findViewById(R.id.editprofile_lastname);
+        userN = findViewById(R.id.editprofile_username);
+        email = findViewById(R.id.editprofile_email);
+
+        firstN.setText(test.getFirstname());
+        lastN.setText(test.getLastname());
+        userN.setText(test.getUsername());
+        email.setText(test.getEmail());
 
     }
 
@@ -31,11 +44,13 @@ public class Profile extends AppCompatActivity{
 
     public Profile(){
     }
-
-    public void editButton(View view){
+    public boolean editButton(MenuItem item) {
         Intent intent = new Intent(this, EditProfile.class);
+        startActivity(intent);
+        return true;
     }
-    String username,password,firstname,lastname;
+
+    String username,password,firstname,lastname,email;
     int id;
 
 
@@ -45,6 +60,14 @@ public class Profile extends AppCompatActivity{
         this.password = password;
         this.firstname  = firstname;
         this.lastname = lastname;
+    }
+    public Profile(int id, String username, String password,String firstname, String lastname,String email){
+        this.id = id;
+        this.username = username;
+        this.password = password;
+        this.firstname  = firstname;
+        this.lastname = lastname;
+        this.email = email;
     }
 
     public Profile(int id, String username, String password){
@@ -77,5 +100,22 @@ public class Profile extends AppCompatActivity{
     }
     public void setId(int id) {
         this.id = id;
+    }
+
+    public static Profile getCurrentLogedIn(){
+        //TODO: find a way to get the current one
+        return test;
+    }
+
+    public String getFirstname() {
+        return firstname;
+    }
+
+    public String getLastname() {
+        return lastname;
+    }
+
+    public String getEmail() {
+        return email;
     }
 }

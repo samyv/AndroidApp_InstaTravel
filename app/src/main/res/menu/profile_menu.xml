@@ -2,7 +2,7 @@
     xmlns:android="http://schemas.android.com/apk/res/android" >
     <item
         android:id="@+id/action_cart"
-        android:onClick="loginButton"
+        android:onClick="editButton"
         android:orderInCategory="100"
         android:title="edit"
         app:showAsAction="always" />
