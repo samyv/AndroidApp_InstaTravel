@@ -70,26 +70,32 @@ public class MainActivity extends AppCompatActivity {
         EditText textpass = (EditText) findViewById(R.id.loginPassword);
         final String testname = text.getText().toString();
         final String testpass = textpass.getText().toString();
-        String url ="http://api.a17-sd510.studev.groept.be/getAccount/"+ testname;
+        String url ="http://api.a17-sd510.studev.groept.be/getAccount";
         JsonArrayRequest request = new JsonArrayRequest(Request.Method.POST, url, null, new Response.Listener<JSONArray>() {
             @Override
             public void onResponse(JSONArray response) {
+                String name = "";
+                String pass = "";
+                Boolean found = false;
                 for (int i = 0; i < response.length(); i++){
                     try {
                         JSONObject jsonObject = response.getJSONObject(i);
                         String hold = jsonObject.getString("id");
                         int id = Integer.parseInt(hold);
-                        String name = jsonObject.getString("name");
-                        String pass = jsonObject.getString("password");
+                        name = jsonObject.getString("name");
+                        pass = jsonObject.getString("password");
                         if(testname.equals(name) && testpass.equals(pass)){
-                            startActivity(new Intent(MainActivity.this,HomeScreen.class));
-                        }else {
-                            Toast.makeText(MainActivity.this, "betaat niet", Toast.LENGTH_SHORT).show();
+                            found = true;
                         }
                     } catch (JSONException e) {
                         Toast.makeText(MainActivity.this, "error", Toast.LENGTH_SHORT).show();
                         e.printStackTrace();
                     }
+                }
+                if(found){
+                    startActivity(new Intent(MainActivity.this,HomeScreen.class));
+                }else {
+                    Toast.makeText(MainActivity.this, "betaat niet", Toast.LENGTH_SHORT).show();
                 }
             }
         }, new Response.ErrorListener() {
