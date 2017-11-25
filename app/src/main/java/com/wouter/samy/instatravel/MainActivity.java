@@ -31,7 +31,6 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 public class MainActivity extends AppCompatActivity {
-    public Account test;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         MySingleton.getInstance(this);
@@ -78,6 +77,8 @@ public class MainActivity extends AppCompatActivity {
                         name = jsonObject.getString("name");
                         pass = jsonObject.getString("password");
                         if(testname.equals(name) && testpass.equals(pass)){
+                            Profile.test.setId(id);
+                            Profile.test.setUsername(name);
                             found = true;
                         }
                     } catch (JSONException e) {

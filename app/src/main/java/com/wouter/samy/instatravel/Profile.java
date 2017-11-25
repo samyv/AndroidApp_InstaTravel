@@ -20,7 +20,6 @@ public class Profile extends AppCompatActivity{
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile);
         //for testing purpose
-        test = new Profile(1,"samyvv","WouterIsLelijk","Samy","Van Vooren","samyvanv@hotmail.com");
 
         TextView firstN,lastN,userN,email;
         firstN = findViewById(R.id.editprofile_firstname);
@@ -52,7 +51,6 @@ public class Profile extends AppCompatActivity{
 
     String username,password,firstname,lastname,email;
     int id;
-
 
     public Profile(int id, String username, String password,String firstname, String lastname){
         this.id = id;
@@ -102,9 +100,24 @@ public class Profile extends AppCompatActivity{
         this.id = id;
     }
 
-    public static Profile getCurrentLogedIn(){
-        //TODO: find a way to get the current one
-        return test;
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public void setFirstname(String firstname) {
+        this.firstname = firstname;
+    }
+
+    public void setLastname(String lastname) {
+        this.lastname = lastname;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
     }
 
     public String getFirstname() {
