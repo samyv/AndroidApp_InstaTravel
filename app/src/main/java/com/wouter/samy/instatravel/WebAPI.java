@@ -1,17 +1,25 @@
 package com.wouter.samy.instatravel;
 
+import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-/*import android.os.Bundle;
+import android.widget.TextView;
+
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
+import com.google.android.gms.common.api.Response;
+import android.os.Bundle;
 import android.widget.TextView;
 
 import com.android.volley.*;
 import com.android.volley.toolbox.StringRequest;
-import com.android.volley.toolbox.Volley;*/
+import com.android.volley.toolbox.Volley;
 
 public class WebAPI extends AppCompatActivity {
-    //pls kill me now
-    //lel
-    /*@Override
+/*
+    @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_web_api);
@@ -37,6 +45,6 @@ public class WebAPI extends AppCompatActivity {
         });
         // Add the request to the RequestQueue.
         queue.add(stringRequest);
-    }
-*/
+    }*/
+
 }
