@@ -32,15 +32,8 @@ import org.json.JSONObject;
 
 public class MainActivity extends AppCompatActivity {
     public Account test;
-    public Cache cache;
-    public Network network;
-    public RequestQueue queue;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        cache = new DiskBasedCache(getCacheDir(),1024*1024);
-        network = new BasicNetwork(new HurlStack());
-        //queue = Volley.newRequestQueue(this);
-        //queue.start();
         MySingleton.getInstance(this);
         boolean logout = getIntent().getBooleanExtra("logout",false);
         if(logout){
@@ -95,7 +88,7 @@ public class MainActivity extends AppCompatActivity {
                 if(found){
                     startActivity(new Intent(MainActivity.this,HomeScreen.class));
                 }else {
-                    Toast.makeText(MainActivity.this, "betaat niet", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(MainActivity.this, "bestaat niet", Toast.LENGTH_SHORT).show();
                 }
             }
         }, new Response.ErrorListener() {
@@ -110,6 +103,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void registerButton(View view){
-        startActivity(new Intent(this,WebAPI.class));
+
+        startActivity(new Intent(this,Register.class));
     }
 }
