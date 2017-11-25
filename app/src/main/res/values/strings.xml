@@ -9,4 +9,6 @@
     </string-array>
     <string name="title_activity_test_maps">Map</string>
     <string name="title_activity_travel_test">Map</string>
+    <string name="open">Open</string>
+    <string name="close">Close</string>
 </resources>

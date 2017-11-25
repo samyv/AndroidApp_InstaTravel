@@ -5,7 +5,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/yellow"
-    tools:context="com.wouter.samy.instatravel.HomeScreen">
+    tools:context="com.wouter.samy.instatravel.HomeScreen"
+    android:id="@+id/drawerLayout">
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
@@ -24,7 +25,8 @@
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
         app:menu="@menu/navigation_menu"
-        android:layout_gravity="start">
+        android:layout_gravity="start"
+        android:id="@+id/nav_menu">>
 
     </android.support.design.widget.NavigationView>
 
