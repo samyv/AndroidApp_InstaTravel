@@ -56,6 +56,9 @@ public class MainActivity extends AppCompatActivity {
             public void onResponse(JSONArray response) {
                 String name = "";
                 String pass = "";
+                String firstname = "";
+                String lastname = "";
+                String email = "";
                 Boolean found = false;
                 for (int i = 0; i < response.length(); i++){
                     try {
@@ -64,9 +67,15 @@ public class MainActivity extends AppCompatActivity {
                         int id = Integer.parseInt(hold);
                         name = jsonObject.getString("name");
                         pass = jsonObject.getString("password");
+                        firstname = jsonObject.getString("firstname");
+                        lastname = jsonObject.getString("lastname");
+                        email = jsonObject.getString("email");
                         if(testname.equals(name) && testpass.equals(pass)){
                             test.setId(id);
                             test.setUsername(name);
+                            test.setEmail(email);
+                            test.setFirstname(firstname);
+                            test.setLastname(lastname);
                             found = true;
                             Profile.setLoggedIn(test);
                         }

@@ -50,6 +50,7 @@ public class Profile extends AppCompatActivity{
     }
 
     String username,password,firstname,lastname,email;
+    Boolean Updated = true;
     int id;
 
     public Profile(int id, String username, String password,String firstname, String lastname){
@@ -98,6 +99,14 @@ public class Profile extends AppCompatActivity{
 
     public void setUsername(String username) {
         this.username = username;
+    }
+
+    public Boolean getUpdated() {
+        return Updated;
+    }
+
+    public void setUpdated(Boolean updated) {
+        Updated = updated;
     }
 
     public void setPassword(String password) {
