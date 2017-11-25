@@ -42,6 +42,6 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void registerButton(View view){
-        startActivity(new Intent(this,Register.class));
+        startActivity(new Intent(this,WebAPI.class));
     }
 }
