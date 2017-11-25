@@ -33,7 +33,7 @@
                 android:textSize="18sp" />
 
             <TextView
-                android:id="@+id/editprofile_firstname"
+                android:id="@+id/profile_firstname"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:textSize="24sp"
@@ -48,7 +48,7 @@
                 android:textSize="18sp" />
 
             <TextView
-                android:id="@+id/editprofile_lastname"
+                android:id="@+id/profile_lastname"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:textSize="24sp"
@@ -63,7 +63,7 @@
                 android:textSize="18sp" />
 
             <TextView
-                android:id="@+id/editprofile_email"
+                android:id="@+id/profile_email"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:textSize="24sp"
@@ -78,7 +78,7 @@
                 android:textSize="18sp" />
 
             <TextView
-                android:id="@+id/editprofile_username"
+                android:id="@+id/profile_username"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:textSize="24sp"

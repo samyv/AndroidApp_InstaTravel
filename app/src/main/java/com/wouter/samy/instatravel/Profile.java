@@ -23,10 +23,10 @@ public class Profile extends AppCompatActivity{
         test = new Profile(1,"samyvv","WouterIsLelijk","Samy","Van Vooren","samyvanv@hotmail.com");
 
         TextView firstN,lastN,userN,email;
-        firstN = findViewById(R.id.editprofile_firstname);
-        lastN = findViewById(R.id.editprofile_lastname);
-        userN = findViewById(R.id.editprofile_username);
-        email = findViewById(R.id.editprofile_email);
+        firstN = findViewById(R.id.profile_firstname);
+        lastN = findViewById(R.id.profile_lastname);
+        userN = findViewById(R.id.profile_username);
+        email = findViewById(R.id.profile_email);
 
         firstN.setText(test.getFirstname());
         lastN.setText(test.getLastname());
