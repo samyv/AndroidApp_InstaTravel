@@ -20,7 +20,7 @@ public class Profile extends AppCompatActivity{
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile);
         //for testing purpose
-        test = new Profile(1,"samyvv","WouterIsLe-m "lijk","Samy","Van Vooren","samyvanv@hotmail.com");
+        test = new Profile(1,"samyvv","WouterIsLelijk","Samy","Van Vooren","samyvanv@hotmail.com");
 
         TextView firstN,lastN,userN,email;
         firstN = findViewById(R.id.editprofile_firstname);
