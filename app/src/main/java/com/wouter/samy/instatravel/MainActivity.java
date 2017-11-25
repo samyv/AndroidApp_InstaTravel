@@ -37,7 +37,7 @@ public class MainActivity extends AppCompatActivity {
         } else {
             Toast toast = Toast.makeText(getApplicationContext(),"username and password don't match",Toast.LENGTH_LONG);
         }*/
-        startActivity(new Intent(this, TestMaps.class));
+        startActivity(new Intent(this, HomeScreen.class));
 
     }
 
