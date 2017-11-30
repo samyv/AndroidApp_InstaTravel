@@ -63,7 +63,7 @@ public class TravelTest extends FragmentActivity implements OnMapReadyCallback,
             public void onSuccess(Location location) {
                 LatLng pos = new LatLng(location.getLatitude(), location.getLongitude());
                 if (location != null) {
-                    Marker mylocation = mMap.addMarker(new MarkerOptions().position(pos).title("my Current Location"));
+                    Marker mylocation = mMap.addMarker(new MarkerOptions().position(new LatLng(20,5)).title("random"));
                 }
             }
         });
