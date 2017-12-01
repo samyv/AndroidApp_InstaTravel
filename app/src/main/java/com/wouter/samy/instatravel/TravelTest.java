@@ -20,6 +20,7 @@ import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.location.LocationServices;
+import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
@@ -57,7 +58,6 @@ public class TravelTest extends AppCompatActivity implements OnMapReadyCallback,
     @Override
     public void onPause(){
         super.onPause();
-
         if(mGoogleApiClient != null){
             LocationServices.FusedLocationApi.removeLocationUpdates(mGoogleApiClient,this);
         }
@@ -81,9 +81,6 @@ public class TravelTest extends AppCompatActivity implements OnMapReadyCallback,
             buildGoogleApiClient();
             mGoogleMap.setMyLocationEnabled(true);
         }
-
-       mGoogleMap.addMarker(new MarkerOptions().position(new LatLng(10,15)).title("test"));
-        
     }
 
     protected synchronized void buildGoogleApiClient() {
@@ -101,6 +98,7 @@ public class TravelTest extends AppCompatActivity implements OnMapReadyCallback,
         Toast.makeText(this, "MyLocation button clicked", Toast.LENGTH_SHORT).show();
         LatLng loc = new LatLng(mGoogleMap.getMyLocation().getLatitude(),mGoogleMap.getMyLocation().getLongitude());
         mGoogleMap.moveCamera(CameraUpdateFactory.newLatLng(loc));
+        mGoogleMap.animateCamera(CameraUpdateFactory.zoomTo(16));
         return true;
     }
     @Override
@@ -118,6 +116,8 @@ public class TravelTest extends AppCompatActivity implements OnMapReadyCallback,
                 Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
             LocationServices.FusedLocationApi.requestLocationUpdates(mGoogleApiClient, mLocationRequest, this);
         }
+        LatLng latLng = new LatLng(mLastLocation.getLatitude(),mLastLocation.getLongitude());
+
     }
 
     @Override
