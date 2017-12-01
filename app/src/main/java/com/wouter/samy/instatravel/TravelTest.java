@@ -12,6 +12,7 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
+import android.view.View;
 import android.widget.Toast;
 
 import com.google.android.gms.location.FusedLocationProviderClient;
@@ -225,6 +226,9 @@ public class TravelTest extends AppCompatActivity implements OnMapReadyCallback,
             // other 'case' lines to check for other
             // permissions this app might request
         }
+    }
+    public void addMarkerButton(View view){
+
     }
 
 }

@@ -46,9 +46,14 @@ public class HomeScreen extends AppCompatActivity {
                         Intent logOutActivity = new Intent(getApplicationContext(), MainActivity.class);
                         logOutActivity.putExtra("logout", true);
                         startActivity(logOutActivity);
+                        break;
                     case (R.id.nav_maps):
                         Intent mapsActivity = new Intent(getApplicationContext(),TravelTest.class);
                         startActivity(mapsActivity);
+                        break;
+                    case(R.id.nav_mytravels):
+                        Intent myTravelIntent = new Intent(getApplicationContext(),MyTravels.class);
+                        startActivity(myTravelIntent);
                 }
                 return true;
             }
