@@ -1,39 +1,205 @@
 package com.wouter.samy.instatravel;
 
 import android.content.Context;
-import android.content.pm.PackageManager;
-import android.hardware.Camera;
+import android.graphics.SurfaceTexture;
+import android.hardware.camera2.CameraAccessException;
+import android.hardware.camera2.CameraCharacteristics;
+import android.hardware.camera2.CameraDevice;
+import android.hardware.camera2.CameraManager;
+import android.hardware.camera2.params.StreamConfigurationMap;
+import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.HandlerThread;
+import android.support.annotation.NonNull;
+import android.support.annotation.RequiresApi;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Size;
+import android.util.SparseIntArray;
+import android.view.Surface;
+import android.view.TextureView;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.List;
+
+@RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
 public class Cameratab extends AppCompatActivity {
+    private String mCameraId;
+    private TextureView mTextureView;
+    private TextureView.SurfaceTextureListener mSurfaceTextureListener = new TextureView.SurfaceTextureListener() {
+        @Override
+        public void onSurfaceTextureAvailable(SurfaceTexture surfaceTexture, int width, int height) {
+            //Toast.makeText(getApplicationContext(), "Available", Toast.LENGTH_SHORT).show();
+            setupCamera(width, height);
+        }
+
+        @Override
+        public void onSurfaceTextureSizeChanged(SurfaceTexture surfaceTexture, int i, int i1) {
+
+        }
+
+        @Override
+        public boolean onSurfaceTextureDestroyed(SurfaceTexture surfaceTexture) {
+            return false;
+        }
+
+        @Override
+        public void onSurfaceTextureUpdated(SurfaceTexture surfaceTexture) {
+
+        }
+    };
+
+    private CameraDevice mCameraDevice;
+    private CameraDevice.StateCallback mCameraDeviceStateCallback = new CameraDevice.StateCallback() {
+        @Override
+        public void onOpened(@NonNull CameraDevice cameraDevice) {
+            mCameraDevice = cameraDevice;
+        }
+
+
+        @Override
+        public void onDisconnected(@NonNull CameraDevice cameraDevice) {
+            cameraDevice.close();
+            mCameraDevice = null;
+        }
+
+        @Override
+        public void onError(@NonNull CameraDevice cameraDevice, int i) {
+            cameraDevice.close();
+            mCameraDevice = null;
+        }
+    };
+
+    private HandlerThread mBackgroundHandlerThread;
+    private Handler mBackgroundHandler;
+    private Size mPreviewSize;
+    private static SparseIntArray ORIENTATIONS = new SparseIntArray();
+    static {
+        ORIENTATIONS.append(Surface.ROTATION_0,0);
+        ORIENTATIONS.append(Surface.ROTATION_0,90);
+        ORIENTATIONS.append(Surface.ROTATION_0,180);
+        ORIENTATIONS.append(Surface.ROTATION_0,270);
+
+    }
+
+    private static class CompareSizeByArea implements Comparator<Size>{
+        @Override
+        public int compare(Size lhs, Size rhs) {
+            return Long.signum((long) lhs.getWidth() * lhs.getHeight() / (long) rhs.getWidth() * rhs.getHeight());
+        }
+
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_cameratab);
-        if(checkCameraHardware(this)){
-            getCameraInstance();
-        }
+        mTextureView = (TextureView) findViewById(R.id.textureView);
     }
-    private boolean checkCameraHardware(Context context) {
-        if (context.getPackageManager().hasSystemFeature(PackageManager.FEATURE_CAMERA)){
-            // this device has a camera
-            return true;
+
+    @Override
+    protected void onResume(){
+        super.onResume();
+        startBackgroundThread();
+        if(mTextureView.isAvailable()){
+            setupCamera(mTextureView.getWidth(),mTextureView.getHeight());
         } else {
-            // no camera on this device
-            return false;
+            mTextureView.setSurfaceTextureListener(mSurfaceTextureListener);
         }
     }
-    /** A safe way to get an instance of the Camera object. */
-    public static Camera getCameraInstance(){
-        Camera c = null;
+
+    @Override
+    protected void onPause(){
+        closeCamera();
+        stopBackgroundThread();
+        super.onPause();
+    }
+
+//    @Override
+//    public void OnWindowFocusChanged(boolean hasFocus){
+//        super.onWindowFocusChanged(hasFocus);
+//        View decorView = getWindow().getDecorView();
+//        if(hasFocus){
+//            decorView.setSystemUiVisibility((View.SYSTEM_UI_FLAG_LAYOUT_STABLE
+//                    | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY
+//                    | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
+//                    | View.SYSTEM_UI_FLAG_FULLSCREEN
+//                    | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
+//                    | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION));
+//        }
+//    }
+
+    private void setupCamera(int width, int height){
+        CameraManager cameraManager = (CameraManager) getSystemService(Context.CAMERA_SERVICE);
         try {
-            c = Camera.open(); // attempt to get a Camera instance
+            for (String cameraId : cameraManager.getCameraIdList()) {
+                CameraCharacteristics cameraCharacteristics = cameraManager.getCameraCharacteristics(cameraId);
+                if(cameraCharacteristics.get(CameraCharacteristics.LENS_FACING) == CameraCharacteristics.LENS_FACING_FRONT){
+                    continue;
+                }
+                StreamConfigurationMap map = cameraCharacteristics.get(CameraCharacteristics.SCALER_STREAM_CONFIGURATION_MAP);
+                int deviceOrientation = getWindowManager().getDefaultDisplay().getRotation();
+                int totalRotation = sensorToDeviceRotation(cameraCharacteristics,deviceOrientation);
+                boolean swapRotation = totalRotation == 90 || totalRotation == 270;
+                int rotatewidth = width;
+                int rotateHeight = height;
+                if(swapRotation){
+                    rotatewidth = height;
+                    rotateHeight = width;
+                }
+                mPreviewSize = chooseOptimalSize(map.getOutputSizes(SurfaceTexture.class), rotatewidth, rotateHeight);
+                mCameraId = cameraId;
+                return;
+            }
+        } catch (CameraAccessException e){
+            e.printStackTrace();
         }
-        catch (Exception e){
-            // Camera is not available (in use or does not exist)
+    }
+
+    private void closeCamera(){
+        if(mCameraDevice != null){
+            mCameraDevice.close();
+            mCameraDevice = null;
         }
-        return c; // returns null if camera is unavailable
+    }
+
+    private void startBackgroundThread(){
+        mBackgroundHandlerThread = new HandlerThread("Instatravel");
+        mBackgroundHandlerThread.start();
+        mBackgroundHandler = new Handler(mBackgroundHandlerThread.getLooper());
+    }
+
+    private void stopBackgroundThread(){
+        mBackgroundHandlerThread.quitSafely();
+        try {
+            mBackgroundHandlerThread.join();
+            mBackgroundHandlerThread = null;
+            mBackgroundHandler = null;
+        } catch(InterruptedException e){
+            e.printStackTrace();
+        }
+    }
+
+    private static int sensorToDeviceRotation(CameraCharacteristics cameraCharacteristics, int deviceOrientation){
+        int sensorOrientation = cameraCharacteristics.get(CameraCharacteristics.SENSOR_ORIENTATION);
+        deviceOrientation = ORIENTATIONS.get(deviceOrientation);
+        return (sensorOrientation + deviceOrientation + 360) %360;
+    }
+
+    private  static Size chooseOptimalSize(Size[] choices, int width, int height){
+        List<Size> bigEnough = new ArrayList<>();
+        for(Size option : choices){
+            if(option.getHeight() == option.getWidth() * height / width &&
+                    option.getWidth() >= width && option.getHeight() >= height){
+                bigEnough.add(option);
+            }
+        }
+        if(bigEnough.size() > 0){
+            return Collections.min(bigEnough, new CompareSizeByArea());
+        } else {
+            return choices[0];
+        }
     }
 }

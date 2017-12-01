@@ -1,7 +1,10 @@
 package com.wouter.samy.instatravel;
 
 import android.content.Context;
+import android.content.Intent;
 import android.hardware.Camera;
+import android.hardware.camera2.CameraManager;
+import android.provider.MediaStore;
 import android.util.Log;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
@@ -16,6 +19,7 @@ import static android.content.ContentValues.TAG;
 public class CameraPreview extends SurfaceView implements SurfaceHolder.Callback {
     private SurfaceHolder mHolder;
     private Camera mCamera;
+    private CameraManager mCameraManager;
 
     public CameraPreview(Context context, Camera camera) {
         super(context);
